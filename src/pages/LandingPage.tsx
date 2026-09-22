@@ -1,7 +1,7 @@
 import React from 'react';
 import { Cpu, ArrowRight, Zap, Sparkles, Activity, Layers, Users, ChevronDown, Award, Radio } from 'lucide-react';
 import { ECEChipMotif } from '../components/layout/ECEChipMotif.js';
-import { InteractiveBlueFog } from '../components/ui/InteractiveBlueFog.js';
+import { CursorBlueFog } from '../components/ui/CursorBlueFog.js';
 import { useAuth } from '../context/AuthContext.js';
 
 interface LandingPageProps {
@@ -13,10 +13,10 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
 
   return (
     <div className="relative min-h-screen bg-[#03070D] text-slate-100 overflow-hidden selection:bg-cyan-500 selection:text-navy-950">
-      {/* ANIMATED CURSOR-INTERACTIVE & SCROLL-PARALLAX ATMOSPHERIC BLUE FOG */}
-      <InteractiveBlueFog />
+      {/* 2D CANVAS CURSOR-REACTIVE & SCROLL-PARALLAX ATMOSPHERIC BLUE FOG */}
+      <CursorBlueFog />
 
-      <ECEChipMotif className="opacity-40" />
+      <ECEChipMotif className="opacity-40 relative z-[2]" />
 
       {/* HERO SECTION — PREMIUM CINEMATIC LAYOUT */}
       <section id="hero" className="relative z-10 min-h-[calc(100vh-80px)] flex flex-col justify-center items-center pt-8 pb-16 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto text-center">
