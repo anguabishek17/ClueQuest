@@ -2,8 +2,6 @@
 ### Department of Electronics & Communication Engineering • Electronics Club
 **VSB Engineering College (Autonomous), Karur, Tamil Nadu**
 
-> Official Live Competition Platform inspired by [VSB ECE Online](https://www.vsbece.online/).
-
 ---
 
 ## 🌟 Overview
