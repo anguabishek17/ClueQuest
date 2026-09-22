@@ -52,8 +52,7 @@ export const LeaderboardSection: React.FC = () => {
             <thead className="bg-navy-950 border-b border-slate-800 text-slate-400 uppercase">
               <tr>
                 <th className="px-5 py-3.5 text-center">RANK</th>
-                <th className="px-5 py-3.5">PLAYER</th>
-                <th className="px-5 py-3.5">TEAM</th>
+                <th className="px-5 py-3.5">TEAM NAME</th>
                 <th className="px-5 py-3.5 text-center">QUESTIONS</th>
                 <th className="px-5 py-3.5 text-center">STATUS</th>
                 <th className="px-5 py-3.5 text-right">TOTAL SCORE</th>
@@ -61,16 +60,15 @@ export const LeaderboardSection: React.FC = () => {
             </thead>
             <tbody className="divide-y divide-slate-800/60">
               {data?.leaderboard?.map((row) => (
-                <tr key={row.player_code} className="hover:bg-cyan-500/5 transition">
+                <tr key={row.user_id || row.player_code} className="hover:bg-cyan-500/5 transition">
                   <td className="px-5 py-3 text-center font-bold">
                     {row.rank === 1 && <span className="text-yellow-400 text-sm">🥇 #1</span>}
                     {row.rank === 2 && <span className="text-slate-300 text-sm">🥈 #2</span>}
                     {row.rank === 3 && <span className="text-amber-600 text-sm">🥉 #3</span>}
                     {row.rank > 3 && <span className="text-slate-500">#{row.rank}</span>}
                   </td>
-                  <td className="px-5 py-3 font-bold text-cyan-400">{row.player_code}</td>
                   <td className="px-5 py-3 font-semibold text-emerald-300">
-                    {row.team_name || row.display_name}
+                    {row.team_name || row.display_name || row.player_code}
                   </td>
                   <td className="px-5 py-3 text-center text-slate-300">
                     Q{String(row.questions_reached).padStart(2, '0')} / 20

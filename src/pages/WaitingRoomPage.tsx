@@ -102,16 +102,13 @@ export const WaitingRoomPage: React.FC<WaitingRoomPageProps> = ({
           </span>
 
           <h1 className="text-2xl sm:text-3xl font-display font-extrabold text-white mb-1">
-            WELCOME, {user?.display_name || user?.player_code}
+            WELCOME, {user?.team_name || user?.display_name || 'PARTICIPANT'}
           </h1>
 
-          {/* Player Identity Badges */}
+          {/* Team Identity Badge */}
           <div className="flex flex-wrap items-center justify-center gap-2 mb-6">
-            <span className="text-xs font-mono text-cyan-400 bg-cyan-500/10 border border-cyan-500/30 px-3 py-1 rounded">
-              PLAYER CODE: {user?.player_code}
-            </span>
             {user?.team_name && (
-              <span className="text-xs font-mono text-emerald-300 bg-emerald-500/10 border border-emerald-500/30 px-3 py-1 rounded flex items-center gap-1.5 font-bold">
+              <span className="text-xs font-mono text-emerald-300 bg-emerald-500/10 border border-emerald-500/30 px-3.5 py-1 rounded flex items-center gap-1.5 font-bold">
                 TEAM: {user.team_name}
               </span>
             )}
@@ -123,7 +120,7 @@ export const WaitingRoomPage: React.FC<WaitingRoomPageProps> = ({
                   setTeamError(null);
                   setIsEditingTeam(true);
                 }}
-                className="text-[11px] font-mono text-slate-400 hover:text-cyan-300 bg-navy-950 border border-slate-700 hover:border-cyan-500/50 px-2 py-1 rounded transition"
+                className="text-[11px] font-mono text-slate-400 hover:text-cyan-300 bg-navy-950 border border-slate-700 hover:border-cyan-500/50 px-2.5 py-1 rounded transition"
               >
                 EDIT TEAM NAME
               </button>
@@ -187,7 +184,7 @@ export const WaitingRoomPage: React.FC<WaitingRoomPageProps> = ({
             </div>
 
             <div className="flex items-center justify-between font-mono">
-              <span className="text-xs text-slate-400 uppercase">PARTICIPANTS ONLINE:</span>
+              <span className="text-xs text-slate-400 uppercase">TEAMS ONLINE:</span>
               <span className="text-base font-bold text-cyan-300 flex items-center gap-1.5">
                 <Users className="w-4 h-4 text-cyan-400" />
                 {onlineCount} <span className="text-xs text-slate-500 font-normal">/ {totalRegistered}</span>

@@ -102,19 +102,26 @@ function executeMemoryQuery<T>(sql: string, params: any[]): { rows: T[]; rowCoun
     } else if (lower.includes('where id =') || lower.includes('where id=')) {
       const id = params[0];
       rows = rows.filter(u => u.id === id);
-    } else if (lower.includes('where role =') || lower.includes("where role = 'player'") || lower.includes("where role = 'PLAYER'")) {
-      const role = params[0] || 'PLAYER';
-      rows = rows.filter(u => u.role.toUpperCase() === String(role).toUpperCase());
     } else if (lower.includes('where lower(team_name) =') || lower.includes('where team_name =')) {
       const tName = String(params[0]).toLowerCase();
       const excludeId = params[1] || null;
       rows = rows.filter(u => u.team_name && u.team_name.toLowerCase() === tName && (excludeId ? u.id !== excludeId : true));
+    } else if (lower.includes("team_name is not null")) {
+      rows = rows.filter(u => u.role === 'PLAYER' && !!u.team_name);
+    } else if (lower.includes("team_name is null")) {
+      rows = rows.filter(u => u.role === 'PLAYER' && !u.team_name);
+    } else if (lower.includes('where role =') || lower.includes("where role = 'player'") || lower.includes("where role = 'player'")) {
+      const role = params[0] || 'PLAYER';
+      rows = rows.filter(u => u.role.toUpperCase() === String(role).toUpperCase());
     }
     if (lower.includes('count(*)')) {
       return { rows: [{ count: String(rows.length) }] as any, rowCount: 1 };
     }
     if (lower.includes('order by player_code asc')) {
       rows.sort((a, b) => a.player_code.localeCompare(b.player_code));
+    }
+    if (lower.includes('limit 1')) {
+      rows = rows.slice(0, 1);
     }
     return { rows: rows as any, rowCount: rows.length };
   }
@@ -368,7 +375,11 @@ function executeMemoryQuery<T>(sql: string, params: any[]): { rows: T[]; rowCoun
     const id = params[params.length - 1];
     const user = memoryStore.users.get(id);
     if (user) {
-      if (lower.includes('team_name =') || lower.includes('team_name=')) {
+      if (lower.includes('team_name =') && lower.includes('display_name =')) {
+        user.team_name = params[0];
+        user.display_name = params[0];
+        user.updated_at = new Date().toISOString();
+      } else if (lower.includes('team_name =') || lower.includes('team_name=')) {
         user.team_name = params[0];
         user.updated_at = new Date().toISOString();
       }

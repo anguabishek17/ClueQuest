@@ -65,36 +65,36 @@ async function runTests() {
   assert(eventStatus.data.stats.total_registered_participants === 40, '40 registered participants verified in public status');
   assert(eventStatus.data.stats.total_questions === 20, '20 competition questions verified');
 
-  // 2. Authentication & Role Separation
-  console.log('\n--- 2. Authentication & Authorization ---');
-  const player1Login = await api('/auth/login', {
+  // 2. Authentication & Direct Team-Name-Only Participant Entry
+  console.log('\n--- 2. Team-Name-Only Entry & Coordinator Authorization ---');
+  const team1Entry = await api('/auth/team', {
     method: 'POST',
-    body: { player_code: 'CQ001', password: 'VSBece2026!' },
+    body: { teamName: '   Circuit Breakers   ' },
   });
-  assert(player1Login.ok && player1Login.data.user.player_code === 'CQ001', 'Player CQ001 Login Successful');
-  const player1Token = player1Login.data.token;
+  assert(team1Entry.ok && team1Entry.data.user.team_name === 'Circuit Breakers', 'Team 1 ("Circuit Breakers") Enters with Direct Team Name');
+  const player1Token = team1Entry.data.token;
 
-  const player2Login = await api('/auth/login', {
+  const team2Entry = await api('/auth/team', {
     method: 'POST',
-    body: { player_code: 'CQ002', password: 'VSBece2026!' },
+    body: { teamName: 'BYTE BANDITS' },
   });
-  assert(player2Login.ok && player2Login.data.user.player_code === 'CQ002', 'Player CQ002 Login Successful');
-  const player2Token = player2Login.data.token;
+  assert(team2Entry.ok && team2Entry.data.user.team_name === 'BYTE BANDITS', 'Team 2 ("BYTE BANDITS") Enters with Direct Team Name');
+  const player2Token = team2Entry.data.token;
 
-  const adminLogin = await api('/auth/login', {
+  const adminLogin = await api('/auth/admin/login', {
     method: 'POST',
-    body: { player_code: 'admin', password: 'VSBadmin2026!' },
+    body: { username: 'admin', password: 'VSBadmin2026!' },
   });
-  assert(adminLogin.ok && adminLogin.data.user.role === 'ADMIN', 'Admin Login Successful');
+  assert(adminLogin.ok && adminLogin.data.user.role === 'ADMIN', 'Admin Login Successful with Dedicated Credentials');
   const adminToken = adminLogin.data.token;
 
-  // Role Protection Check: Player cannot start event or access admin overview
+  // Role Protection Check: Participant cannot start event or access admin overview
   const unauthorizedStart = await api('/admin/event/control', {
     method: 'POST',
     token: player1Token,
     body: { action: 'START_NOW' },
   });
-  assert(unauthorizedStart.status === 403, 'Player CQ001 forbidden (403) from coordinator start endpoint');
+  assert(unauthorizedStart.status === 403, 'Participant forbidden (403) from coordinator start endpoint');
 
   // 3. Pre-Event Participant Access Guard (Zero Leak in WAITING state)
   console.log('\n--- 3. Pre-Event Participant Access Guard (Zero Leak) ---');
@@ -113,14 +113,9 @@ async function runTests() {
   });
   assert(preStartSubmit.status === 400, 'Submitting answers rejected before event is LIVE');
 
-  // 4. Dedicated Admin & Participant Authentication Suite
-  console.log('\n--- 4. Admin & Participant Authentication Security ---');
-  const dedicatedAdminLogin = await api('/auth/admin/login', {
-    method: 'POST',
-    body: { username: 'admin', password: 'VSBadmin2026!' },
-  });
-  assert(dedicatedAdminLogin.ok && dedicatedAdminLogin.data.user.role === 'ADMIN', 'Dedicated Admin Login (/api/auth/admin/login) Successful');
-  assert(dedicatedAdminLogin.data.user.password_hash === undefined, 'Admin password hash is NEVER exposed in payload');
+  // 4. Dedicated Admin & Participant Authentication Security
+  console.log('\n--- 4. Admin Credentials & Session Security ---');
+  assert(adminLogin.data.user.password_hash === undefined, 'Admin password hash is NEVER exposed in payload');
 
   const invalidAdminLogin = await api('/auth/admin/login', {
     method: 'POST',
@@ -130,61 +125,49 @@ async function runTests() {
 
   const participantAsAdmin = await api('/auth/admin/login', {
     method: 'POST',
-    body: { username: 'CQ001', password: 'VSBece2026!' },
+    body: { username: 'Circuit Breakers', password: 'VSBece2026!' },
   });
-  assert(participantAsAdmin.status === 401, 'Participant credentials rejected from admin login endpoint');
+  assert(participantAsAdmin.status === 401, 'Participant team name rejected from admin login endpoint');
 
-  // 5. Participant Team Registration, Uniqueness & Editing in WAITING state
-  console.log('\n--- 5. Team Name Registration, Normalization & Uniqueness ---');
-  // CQ001 registers team
-  const regTeamCQ001 = await api('/auth/team', {
+  // 5. Team Name Validation, Normalization, Uniqueness & Persistence
+  console.log('\n--- 5. Team Name Validation, Uniqueness & Session Isolation ---');
+  // Empty team name
+  const emptyTeam = await api('/auth/team', { method: 'POST', body: { teamName: '   ' } });
+  assert(emptyTeam.status === 400, 'Empty team name rejected');
+
+  // Short team name (<2 chars)
+  const shortTeam = await api('/auth/team', { method: 'POST', body: { teamName: 'A' } });
+  assert(shortTeam.status === 400, 'Team name < 2 characters rejected');
+
+  // Long team name (>60 chars)
+  const longTeam = await api('/auth/team', { method: 'POST', body: { teamName: 'A'.repeat(61) } });
+  assert(longTeam.status === 400, 'Team name > 60 characters rejected');
+
+  // Re-entry / session recovery for existing team
+  const existingTeamReEntry = await api('/auth/team', {
     method: 'POST',
-    token: player1Token,
-    body: { teamName: '   Circuit Breakers   ' },
+    body: { teamName: 'Circuit Breakers' },
   });
-  assert(regTeamCQ001.ok && regTeamCQ001.data.user.team_name === 'Circuit Breakers', 'CQ001 registers team name with whitespace normalization');
+  assert(existingTeamReEntry.ok && existingTeamReEntry.data.user.team_name === 'Circuit Breakers', 'Existing team re-entry returns valid participant session');
 
   // Verify /api/auth/me returns teamName
-  const meCQ001 = await api('/auth/me', { token: player1Token });
-  assert(meCQ001.ok && meCQ001.data.user.team_name === 'Circuit Breakers', 'GET /api/auth/me returns team_name for CQ001');
+  const meTeam1 = await api('/auth/me', { token: player1Token });
+  assert(meTeam1.ok && meTeam1.data.user.team_name === 'Circuit Breakers', 'GET /api/auth/me returns team_name for Circuit Breakers');
 
-  // CQ002 registers unique team
-  const regTeamCQ002 = await api('/auth/team', {
+  // Team 3 registers unique team
+  const team3Entry = await api('/auth/team', {
     method: 'POST',
-    token: player2Token,
-    body: { teamName: 'BYTE BANDITS' },
+    body: { teamName: 'ECE TITANS' },
   });
-  assert(regTeamCQ002.ok && regTeamCQ002.data.user.team_name === 'BYTE BANDITS', 'CQ002 registers team "BYTE BANDITS"');
-
-  // Duplicate team name attempt (case-insensitive) by player 3
-  const player3Login = await api('/auth/login', {
-    method: 'POST',
-    body: { player_code: 'CQ003', password: 'VSBece2026!' },
-  });
-  const player3Token = player3Login.data.token;
-
-  const dupTeamAttempt = await api('/auth/team', {
-    method: 'POST',
-    token: player3Token,
-    body: { teamName: 'circuit breakers' },
-  });
-  assert(dupTeamAttempt.status === 400, 'Duplicate team name registration is rejected');
+  assert(team3Entry.ok && team3Entry.data.user.team_name === 'ECE TITANS', 'Team 3 registers valid team "ECE TITANS"');
+  const player3Token = team3Entry.data.token;
 
   // XSS attack payload attempt
   const xssAttempt = await api('/auth/team', {
     method: 'POST',
-    token: player3Token,
     body: { teamName: '<script>alert("xss")</script>' },
   });
   assert(xssAttempt.status === 400, 'Malicious script/HTML team name rejected');
-
-  // CQ003 registers valid team
-  const regTeamCQ003 = await api('/auth/team', {
-    method: 'POST',
-    token: player3Token,
-    body: { teamName: 'ECE TITANS' },
-  });
-  assert(regTeamCQ003.ok && regTeamCQ003.data.user.team_name === 'ECE TITANS', 'CQ003 registers valid team "ECE TITANS"');
 
   // Edit team name in WAITING state
   const updateTeamWaiting = await api('/auth/team', {

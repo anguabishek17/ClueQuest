@@ -73,14 +73,9 @@ export const ResultsPage: React.FC<ResultsPageProps> = ({ onBackToHome }) => {
             QUEST COMPLETE
           </h1>
 
-          <p className="text-sm font-sans text-slate-300 mb-2">
-            PARTICIPANT: <strong className="text-cyan-300 font-mono">{player?.display_name || player?.player_code}</strong> <span className="font-mono text-slate-400">({player?.player_code})</span>
+          <p className="text-sm font-sans text-slate-300 mb-6">
+            TEAM: <strong className="text-emerald-300 font-mono text-base">{player?.team_name || player?.display_name || player?.player_code}</strong>
           </p>
-          {player?.team_name && (
-            <p className="text-xs font-sans text-emerald-300 mb-6 font-semibold">
-              TEAM IDENTITY: <span className="text-white px-2.5 py-0.5 rounded bg-emerald-950/60 border border-emerald-500/40 font-mono font-bold">{player.team_name}</span>
-            </p>
-          )}
 
           {/* Big Score Box */}
           <div className="bg-navy-950/90 max-w-md mx-auto p-6 rounded-xl border border-cyan-500/40 shadow-inner mb-6">

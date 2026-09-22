@@ -211,8 +211,8 @@ export const Header: React.FC<HeaderProps> = ({
                 className="cursor-pointer bg-navy-900 border border-cyan-500/40 px-3 py-1.5 rounded flex items-center gap-2 hover:border-cyan-300 transition"
               >
                 <div className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
-                <span className="text-xs font-mono text-white font-semibold">{user.player_code}</span>
-                <span className="text-[10px] font-mono text-cyan-400 uppercase">({user.role})</span>
+                <span className="text-xs font-mono text-white font-semibold">{user.team_name || user.display_name || user.player_code}</span>
+                <span className="text-[10px] font-mono text-cyan-400 uppercase">({user.role === 'ADMIN' ? 'ADMIN' : 'TEAM'})</span>
               </div>
               <button
                 onClick={() => logout()}
@@ -225,15 +225,8 @@ export const Header: React.FC<HeaderProps> = ({
           ) : (
             <div className="flex items-center gap-2">
               <button
-                onClick={() => onNavigate?.('login')}
-                className="px-4 py-2 text-xs font-sans font-bold tracking-wider rounded bg-cyan-500 text-navy-950 hover:bg-cyan-400 transition shadow-cyan-glow flex items-center gap-1.5"
-              >
-                <UserIcon className="w-3.5 h-3.5" />
-                PLAYER LOGIN
-              </button>
-              <button
                 onClick={() => onNavigate?.('admin_login')}
-                className="px-3 py-2 text-xs font-sans font-semibold text-slate-300 hover:text-white bg-slate-900/80 border border-slate-700/60 hover:border-cyan-500/40 rounded transition flex items-center gap-1.5"
+                className="px-3.5 py-2 text-xs font-sans font-semibold text-slate-300 hover:text-white bg-slate-900/80 border border-slate-700/60 hover:border-cyan-500/40 rounded transition flex items-center gap-1.5"
               >
                 <ShieldCheck className="w-3.5 h-3.5 text-cyan-400" />
                 ADMIN
