@@ -11,12 +11,14 @@ import { ResultsPage } from './pages/ResultsPage.js';
 import { AdminDashboardPage } from './pages/AdminDashboardPage.js';
 import { LeaderboardSection } from './components/public/LeaderboardSection.js';
 import { HelpSection } from './components/public/HelpSection.js';
+import { ClueQuestInitializer } from './components/ui/ClueQuestInitializer.js';
 import { Cpu } from 'lucide-react';
 
 export const App: React.FC = () => {
   const { user, loading: authLoading } = useAuth();
   const { gameState, loading: gameLoading } = useGame();
   const [currentTab, setCurrentTab] = useState<string>('home');
+  const [isInitializing, setIsInitializing] = useState<boolean>(true);
 
   // Intelligent navigation routing based on login & event state
   useEffect(() => {
@@ -63,6 +65,11 @@ export const App: React.FC = () => {
 
   return (
     <div className="min-h-screen flex flex-col bg-navy-950 text-slate-100 font-sans selection:bg-cyan-500 selection:text-navy-950">
+      {/* FULL-SCREEN TECHNICAL INITIALIZATION / BOOT SEQUENCE */}
+      {isInitializing && (
+        <ClueQuestInitializer onComplete={() => setIsInitializing(false)} />
+      )}
+
       <Header
         isGameMode={isGameMode}
         currentQuestion={gameState?.session?.current_question || 1}
