@@ -1,0 +1,147 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg-primary: #060B14;
+  --bg-secondary: #0A1120;
+  --bg-card: #0F172A;
+  --border-tech: rgba(34, 211, 238, 0.2);
+  --cyan-primary: #00F2FE;
+  --cyan-accent: #06B6D4;
+  --font-display: 'Space Grotesk', system-ui, -apple-system, sans-serif;
+  --font-body: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+
+.font-display {
+  font-family: var(--font-display);
+}
+
+.font-body {
+  font-family: var(--font-body);
+}
+
+.font-mono {
+  font-family: var(--font-mono);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+section, [id] {
+  scroll-margin-top: 90px;
+}
+
+body {
+  margin: 0;
+  background-color: var(--bg-primary);
+  color: #F8FAFC;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  overflow-x: hidden;
+}
+
+/* Technical Grid Pattern */
+.bg-tech-grid {
+  background-size: 32px 32px;
+  background-image: 
+    linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+}
+
+.bg-circuit-pattern {
+  background-image: radial-gradient(rgba(0, 242, 254, 0.15) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #060B14;
+}
+::-webkit-scrollbar-thumb {
+  background: #1E293B;
+  border-radius: 3px;
+  border: 1px solid rgba(0, 242, 254, 0.2);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #00F2FE;
+}
+
+/* Institutional Card Styling */
+.tech-card {
+  background: linear-gradient(135deg, rgba(15, 23, 42, 0.85) 0%, rgba(10, 17, 32, 0.95) 100%);
+  border: 1px solid rgba(34, 211, 238, 0.2);
+  backdrop-filter: blur(12px);
+  position: relative;
+}
+
+.tech-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 12px;
+  height: 2px;
+  background: #00F2FE;
+}
+
+.tech-card::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 12px;
+  height: 2px;
+  background: #00F2FE;
+}
+
+/* Glow Effects */
+.glow-cyan {
+  box-shadow: 0 0 20px -5px rgba(0, 242, 254, 0.4);
+}
+
+.glow-emerald {
+  box-shadow: 0 0 20px -5px rgba(16, 185, 129, 0.4);
+}
+
+.glow-blue {
+  box-shadow: 0 0 20px -5px rgba(37, 99, 235, 0.4);
+}
+
+.text-glow-cyan {
+  text-shadow: 0 0 10px rgba(0, 242, 254, 0.5);
+}
+
+/* Monospace Chip Badges */
+.chip-badge {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+  padding: 2px 8px;
+  border-radius: 2px;
+  border: 1px solid rgba(0, 242, 254, 0.3);
+  background: rgba(0, 242, 254, 0.06);
+  color: #00F2FE;
+}
+
+/* PCB Trace Animation */
+@keyframes signalPulse {
+  0% { transform: scale(0.95); opacity: 0.6; }
+  50% { transform: scale(1.05); opacity: 1; }
+  100% { transform: scale(0.95); opacity: 0.6; }
+}
+
+.signal-pulse {
+  animation: signalPulse 2s infinite ease-in-out;
+}
