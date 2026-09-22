@@ -1,6 +1,7 @@
 import React from 'react';
 import { Cpu, ArrowRight, Zap, Sparkles, Activity, Layers, Users, ChevronDown, Award, Radio } from 'lucide-react';
 import { ECEChipMotif } from '../components/layout/ECEChipMotif.js';
+import { BlueFogBackground } from '../components/ui/BlueFogBackground.js';
 import { useAuth } from '../context/AuthContext.js';
 
 interface LandingPageProps {
@@ -12,35 +13,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
 
   return (
     <div className="relative min-h-screen bg-[#03070D] text-slate-100 overflow-hidden selection:bg-cyan-500 selection:text-navy-950">
-      {/* ATMOSPHERIC AMBIENT GLOW SYSTEM */}
-      <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
-        {/* Left deep blue glow */}
-        <div 
-          className="absolute -top-[10%] -left-[15%] w-[650px] h-[650px] rounded-full blur-[140px] opacity-25"
-          style={{ background: 'radial-gradient(circle, #00BFFF 0%, #0044FF 60%, transparent 80%)' }}
-        />
-        {/* Right electric cyan glow */}
-        <div 
-          className="absolute top-[15%] -right-[15%] w-[600px] h-[600px] rounded-full blur-[140px] opacity-20"
-          style={{ background: 'radial-gradient(circle, #00F2FE 0%, #0680CD 60%, transparent 80%)' }}
-        />
-        {/* Center subtle top ambient glow */}
-        <div 
-          className="absolute top-0 left-1/2 -translate-x-1/2 w-[900px] h-[350px] rounded-full blur-[160px] opacity-15"
-          style={{ background: 'radial-gradient(circle, #00F2FE 0%, transparent 70%)' }}
-        />
-        {/* Very faint technical grid */}
-        <div 
-          className="absolute inset-0 opacity-[0.035]"
-          style={{
-            backgroundImage: `
-              linear-gradient(rgba(0, 191, 255, 0.4) 1px, transparent 1px),
-              linear-gradient(90deg, rgba(0, 191, 255, 0.4) 1px, transparent 1px)
-            `,
-            backgroundSize: '80px 80px',
-          }}
-        />
-      </div>
+      {/* ANIMATED ATMOSPHERIC BLUE FOG BACKGROUND WITH SCROLL PARALLAX */}
+      <BlueFogBackground />
 
       <ECEChipMotif className="opacity-40" />
 

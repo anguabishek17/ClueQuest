@@ -147,3 +147,67 @@ body {
 .signal-pulse {
   animation: signalPulse 2s infinite ease-in-out;
 }
+
+/* Atmospheric Blue Fog Drift Keyframes */
+@keyframes fogDriftSlow {
+  0% {
+    transform: translate(0, 0) scale(1);
+  }
+  33% {
+    transform: translate(45px, -30px) scale(1.06);
+  }
+  66% {
+    transform: translate(-35px, 20px) scale(0.96);
+  }
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+}
+
+@keyframes fogDriftMedium {
+  0% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(-40px, -45px) scale(1.08);
+  }
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+}
+
+@keyframes fogDriftReverse {
+  0% {
+    transform: translate(0, 0) scale(1);
+  }
+  40% {
+    transform: translate(-50px, 35px) scale(1.04);
+  }
+  80% {
+    transform: translate(30px, -25px) scale(0.98);
+  }
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+}
+
+.animate-fog-drift-slow {
+  animation: fogDriftSlow 32s ease-in-out infinite alternate;
+}
+
+.animate-fog-drift-medium {
+  animation: fogDriftMedium 24s ease-in-out infinite alternate;
+}
+
+.animate-fog-drift-reverse {
+  animation: fogDriftReverse 28s ease-in-out infinite alternate;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-fog-drift-slow,
+  .animate-fog-drift-medium,
+  .animate-fog-drift-reverse {
+    animation: none !important;
+  }
+}
+
