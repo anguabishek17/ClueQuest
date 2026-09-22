@@ -1,12 +1,12 @@
 # CLUE QUEST ⚡
-### Department of Electronics & Communication Engineering • Electronics Club
+### Electronics Club • Department of Electronics & Communication Engineering
 **VSB Engineering College (Autonomous), Karur, Tamil Nadu**
 
 ---
 
 ## 🌟 Overview
 
-**CLUE QUEST** is a live multi-user competition platform engineered specifically for the Electronics Club of VSB Engineering College. Designed to handle 40+ concurrent participants logging in and competing simultaneously, it delivers an authoritative clue-based tournament experience where strategic thinking and domain knowledge determine the champion.
+**CLUE QUEST** is a real-time, multi-team competition platform engineered specifically for the Electronics Club of VSB Engineering College. Designed to handle 40 concurrent teams participating in a high-stakes, clue-based tournament where speed, strategy, and electronics domain knowledge determine the champion.
 
 ---
 
@@ -14,31 +14,72 @@
 
 - **20 Curated Electronics Challenges** covering: *Resistors, Capacitors, Inductors, Diodes, Transistors (BJT), MOSFETs, Operational Amplifiers (741), Logic Gates, Flip-Flops, Microcontrollers (MCU), Sensors, ADC, DAC, PWM, UART, I2C, SPI, Antennas, Modulation, and Oscillators*.
 - **4 Progressively Revealing Clues** per question:
-  - **Clue 1**: **100 Points** *(Available immediately)*
+  - **Clue 1**: **100 Points** *(Available immediately upon question unlock)*
   - **Clue 2**: **75 Points** *(Structural / Formula Hint)*
   - **Clue 3**: **50 Points** *(Domain / Topology Hint)*
   - **Clue 4**: **25 Points** *(Definitive Acronym / Hallmark Hint)*
-- **Point Sacrifice Model**: Revealing a clue sacrifices the potential reward for the active question (100 → 75 → 50 → 25). **Previously accumulated total score is never reduced.**
+- **Point Sacrifice Model**: Revealing an additional clue reduces the maximum points obtainable for the current question (100 → 75 → 50 → 25). **Previously earned total score is never deducted.**
 - **Maximum Possible Score**: `20 × 100 = 2000 Points`.
-- **Deterministic Answer Validation**: Canonical answers and aliases are matched with automated whitespace, casing, and symbol normalization.
+- **Authoritative Answer Matching**: Canonical answers and aliases are validated server-side with automated uppercase normalization, punctuation removal, and whitespace trimming.
+- **Authoritative 20-Minute Timer**: Synchronized server countdown with network drift compensation and automatic submission upon timeout.
 
 ---
 
-## 👥 Default Credentials
+## 👥 Authentication & Participation Flow
 
-| Role | Username / Player Code | Default Password | Description |
-| :--- | :--- | :--- | :--- |
-| **Admin / Coordinator** | `admin` | `VSBadmin2026!` | Event controls, 40-player matrix, question CRUD |
-| **Participants (40 Users)** | `CQ001` to `CQ040` | `VSBece2026!` | Isolated multi-user player accounts |
+```text
+                    CLUE QUEST
+                         │
+              ┌──────────┴──────────┐
+              │                     │
+         PARTICIPANT            COORDINATOR
+              │                     │
+        TEAM NAME ONLY        USERNAME + PASSWORD
+        (No Password / IDs)   (Admin Access)
+              │                     │
+              ▼                     ▼
+        WAITING ROOM          CONTROL CENTER
+              │                     │
+              │              START / PAUSE /
+              │              RESUME / END
+              │                     │
+              └──────────┬──────────┘
+                         ▼
+                     GAME EVENT
+```
+
+### 1. Participants (Team-Name-Only Entry)
+- **No passwords or participant IDs required.**
+- Participants simply enter their **Team Name** (e.g. `Circuit Breakers`) on the landing / entry screen and click **`ENTER QUEST →`**.
+- Team names are validated (2–60 chars, sanitized, case-insensitive uniqueness check) and assigned a secure participant session token.
+- Participants enter the **Waiting Room** and wait for the coordinator to start the quest.
+- Team name is automatically locked once the event transitions to `COUNTDOWN` / `LIVE`.
+
+### 2. Coordinator / Administrator (Protected Access)
+- **Coordinator Login**: Accessed via the **Admin** button in the header or `/login` (Coordinator tab).
+- **Credentials**:
+  | Role | Username | Password |
+  | :--- | :--- | :--- |
+  | **Admin / Coordinator** | `admin` | `VSBadmin2026!` |
+- **Capabilities**:
+  - Event controls: `START NOW` (triggers 5-4-3-2-1 countdown), `PAUSE`, `RESUME`, `END`, `RESET`.
+  - Live 40-team monitoring matrix with real-time score, active question, and clue level.
+  - CSV Question Suite Import / Export (`serial number,question,clue 1,clue 2,clue 3,clue 4,answer`).
+  - Integrity monitoring: Fullscreen violations, tab switching, copy/paste attempts, devtools detection.
+  - Comprehensive audit logs and real-time team diagnostics.
 
 ---
 
 ## 🛠️ Architecture & Tech Stack
 
-- **Frontend**: React 19, TypeScript, Vite, Tailwind CSS, Framer Motion, Lucide React.
-- **Backend**: Node.js, TypeScript, Express, Secure HTTP-only cookies, JWT sessions, Bcrypt password hashing.
-- **Database**: Neon PostgreSQL via `@neondatabase/serverless` / `pg` with index optimizations and fallback memory engine for zero-config local testing.
-- **Security & Session Isolation**: Server-authoritative scoring, unrevealed clues/answers are never leaked in client network payloads.
+- **Frontend**: React 19, TypeScript, Vite, Tailwind CSS, Framer Motion, Lucide React, Canvas-based interactive blue fog & circuit background.
+- **Backend**: Node.js, TypeScript, Express, Secure HTTP-only cookies, Signed JWT sessions, Bcrypt hashing for admin authentication.
+- **Database**: Neon PostgreSQL via `@neondatabase/serverless` / `pg` with index optimizations, paired with an integrated in-memory SQL engine for zero-config standalone offline execution.
+- **Security & Integrity**:
+  - Authoritative server state: Clues and answers are never leaked in network payloads before unlock.
+  - Fullscreen enforcement with violation logging.
+  - Tab-switching and copy/paste prevention.
+  - Rate limiting and input sanitization against XSS.
 
 ---
 
@@ -49,8 +90,8 @@
 npm install
 ```
 
-### 2. Configure Neon PostgreSQL (Optional for live DB)
-Create a `.env` file from `.env.example`:
+### 2. Configure Environment (Optional for Neon Cloud DB)
+Create a `.env` file based on `.env.example`:
 ```env
 DATABASE_URL=postgresql://[user]:[password]@[neon-host]/[database]?sslmode=require
 JWT_SECRET=vsb_ece_clue_quest_2026_super_secret_jwt_key_secure_session
@@ -68,6 +109,7 @@ Open **[http://localhost:3001](http://localhost:3001)** in your browser.
 ```bash
 npx tsx server/test-suite.ts
 ```
+*(Runs comprehensive 65-test verification covering authentication, team session isolation, clue progression, scoring, CSV suite, timer, and security)*.
 
 ### 5. Build for Production
 ```bash
@@ -78,8 +120,11 @@ npm run build
 
 ## 🏆 Key Features
 
-- **Institutional Design Language**: Dark navy, electric cyan, PCB traces, electronic chip motifs, JetBrains Mono monospace tickers.
-- **Waiting Room & Synchronized Countdown**: Live online participant counter (`37 / 40`) and synchronized 5-second countdown broadcast (`05 → 04 → 03 → 02 → 01 → GO!`).
-- **Live 40-Participant Matrix**: Real-time admin monitoring of all 40 participants (Question #, Clue level, Current value, Score, Status).
-- **Question Suite Management**: Complete question CRUD, live preview, duplicate, reorder, and JSON import/export.
-- **Network Resilience**: "Connection Interrupted" reconnect banner and authoritative server recovery.
+- **Institutional Design Language**: Dark navy, electric cyan glow, PCB traces, electronic chip motifs, JetBrains Mono monospace tickers, and interactive cursor-reactive blue atmospheric fog.
+- **Full-Screen Boot Sequence**: Technical initialization animation with hardware diagnostics and security subsystem verification.
+- **Live Waiting Room & Synchronized Countdown**: Live `TEAMS ONLINE: XX / 40` counter and synchronized 5-second countdown broadcast (`05 → 04 → 03 → 02 → 01 → GO!`).
+- **Live 40-Team Coordinator Matrix**: Real-time admin monitoring of all participating teams (Question #, Clue level, Current value, Total score, Integrity flags, Status).
+- **CSV Question Suite Import / Export**: Instant atomic import and export of standard 20-question tournament suites.
+- **Public Live Leaderboard**: Real-time rank, team name, completed questions, and score tracking with podium highlights.
+- **Network Resilience & Reconnect Handling**: Seamless session restoration and drift compensation upon browser refresh or temporary disconnect.
+
