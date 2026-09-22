@@ -1,7 +1,7 @@
 import React from 'react';
 import { Cpu, ArrowRight, Zap, Sparkles, Activity, Layers, Users, ChevronDown, Award, Radio } from 'lucide-react';
 import { ECEChipMotif } from '../components/layout/ECEChipMotif.js';
-import { BlueFogBackground } from '../components/ui/BlueFogBackground.js';
+import { InteractiveBlueFog } from '../components/ui/InteractiveBlueFog.js';
 import { useAuth } from '../context/AuthContext.js';
 
 interface LandingPageProps {
@@ -13,8 +13,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
 
   return (
     <div className="relative min-h-screen bg-[#03070D] text-slate-100 overflow-hidden selection:bg-cyan-500 selection:text-navy-950">
-      {/* ANIMATED ATMOSPHERIC BLUE FOG BACKGROUND WITH SCROLL PARALLAX */}
-      <BlueFogBackground />
+      {/* ANIMATED CURSOR-INTERACTIVE & SCROLL-PARALLAX ATMOSPHERIC BLUE FOG */}
+      <InteractiveBlueFog />
 
       <ECEChipMotif className="opacity-40" />
 
