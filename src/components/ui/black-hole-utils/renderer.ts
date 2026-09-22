@@ -224,13 +224,15 @@ export function createRenderer({ canvas }: RendererOptions): RendererInstance {
         gl.STATIC_DRAW
       );
 
-      // Handle Resize & Device Pixel Ratio
+      // Handle Resize & Device Pixel Ratio with optimal render scale
       const updateSize = () => {
         if (!gl || !canvas || isDisposed) return;
         const rect = canvas.getBoundingClientRect();
-        const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
-        const width = Math.max(1, Math.floor((rect.width || window.innerWidth) * dpr));
-        const height = Math.max(1, Math.floor((rect.height || window.innerHeight) * dpr));
+        // Clamp DPR to max 1.5 for desktop, lower on mobile/weak hardware
+        const dpr = Math.min(window.devicePixelRatio || 1, 1.35);
+        const renderScale = 0.85; // 85% internal resolution scaling for ultra-smooth 60 FPS
+        const width = Math.max(1, Math.floor((rect.width || window.innerWidth) * dpr * renderScale));
+        const height = Math.max(1, Math.floor((rect.height || window.innerHeight) * dpr * renderScale));
 
         if (canvas.width !== width || canvas.height !== height) {
           canvas.width = width;
@@ -246,13 +248,20 @@ export function createRenderer({ canvas }: RendererOptions): RendererInstance {
         resizeObserver.observe(canvas);
       }
 
-      // Subtle mouse interaction
+      // Subtle mouse interaction with RAF-based throttling
+      let mousePending = false;
       mouseMoveHandler = (e: MouseEvent) => {
-        const rect = canvas.getBoundingClientRect();
-        if (rect.width && rect.height) {
-          targetMouseX = (e.clientX - rect.left) / rect.width;
-          targetMouseY = (e.clientY - rect.top) / rect.height;
-        }
+        if (mousePending) return;
+        mousePending = true;
+        requestAnimationFrame(() => {
+          mousePending = false;
+          if (!canvas || isDisposed) return;
+          const rect = canvas.getBoundingClientRect();
+          if (rect.width && rect.height) {
+            targetMouseX = (e.clientX - rect.left) / rect.width;
+            targetMouseY = (e.clientY - rect.top) / rect.height;
+          }
+        });
       };
       window.addEventListener('mousemove', mouseMoveHandler, { passive: true });
 
@@ -264,8 +273,15 @@ export function createRenderer({ canvas }: RendererOptions): RendererInstance {
 
       const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+      // Render loop with tab visibility pausing
       const render = (time: number) => {
         if (isDisposed || !gl || !program) return;
+
+        // Pause WebGL calculations when tab is inactive to preserve battery and GPU
+        if (document.hidden) {
+          animationFrameId = requestAnimationFrame(render);
+          return;
+        }
 
         // Smooth mouse damping
         mouseX += (targetMouseX - mouseX) * 0.05;

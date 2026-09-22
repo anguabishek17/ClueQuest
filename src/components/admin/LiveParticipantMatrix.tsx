@@ -15,6 +15,85 @@ interface LiveParticipantMatrixProps {
   };
 }
 
+interface ParticipantRowProps {
+  participant: ParticipantMatrixItem;
+  onSelect: (userId: string) => void;
+}
+
+const ParticipantRow = React.memo<ParticipantRowProps>(({ participant: p, onSelect }) => {
+  let statusBadge = (
+    <span className="px-2 py-0.5 rounded bg-slate-800 text-slate-400 text-[10px]">
+      {p.status}
+    </span>
+  );
+  if (p.status === 'LIVE') {
+    statusBadge = (
+      <span className="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-[10px] font-bold">
+        LIVE
+      </span>
+    );
+  } else if (p.status === 'COMPLETED') {
+    statusBadge = (
+      <span className="px-2 py-0.5 rounded bg-blue-500/20 text-blue-400 border border-blue-500/30 text-[10px] font-bold">
+        COMPLETED
+      </span>
+    );
+  }
+
+  const violationCount = p.integrity_events_count || 0;
+
+  return (
+    <tr
+      onClick={() => onSelect(p.user_id)}
+      className="hover:bg-cyan-500/10 cursor-pointer transition"
+    >
+      <td className="px-4 py-3 font-bold text-cyan-400">{p.player_code}</td>
+      <td className="px-4 py-3 font-semibold text-emerald-300">
+        {p.team_name ? p.team_name : <span className="text-slate-600 font-normal italic">Unregistered</span>}
+      </td>
+      <td className="px-4 py-3 text-center font-bold text-cyan-300">
+        {p.question_display}
+      </td>
+      <td className="px-4 py-3 text-center">
+        <span className="px-2 py-0.5 rounded bg-navy-950 border border-slate-700 text-slate-300 font-bold">
+          {p.clue_display}
+        </span>
+      </td>
+      <td className="px-4 py-3 text-center">
+        <span className="text-amber-400 font-bold">{p.current_value} PTS</span>
+      </td>
+      <td className="px-4 py-3 text-right font-extrabold text-emerald-400 text-sm">
+        {String(p.total_score).padStart(4, '0')} <span className="text-slate-600 text-[10px]">/ 2000</span>
+      </td>
+      <td className="px-4 py-3 text-center">
+        {violationCount > 0 ? (
+          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 border border-amber-500/40 text-[10px] font-bold">
+            ⚠ {violationCount}
+          </span>
+        ) : (
+          <span className="text-emerald-400 font-bold text-xs">✓</span>
+        )}
+      </td>
+      <td className="px-4 py-3 text-center">{statusBadge}</td>
+      <td className="px-4 py-3 text-center">
+        <button
+          type="button"
+          onClick={(e) => {
+            e.stopPropagation();
+            onSelect(p.user_id);
+          }}
+          className="p-1 rounded hover:bg-cyan-500/20 text-slate-400 hover:text-cyan-300 transition"
+          title="View Details"
+        >
+          <Eye className="w-3.5 h-3.5" />
+        </button>
+      </td>
+    </tr>
+  );
+});
+
+ParticipantRow.displayName = 'ParticipantRow';
+
 export const LiveParticipantMatrix: React.FC<LiveParticipantMatrixProps> = ({
   participants,
   stats,
@@ -147,78 +226,9 @@ export const LiveParticipantMatrix: React.FC<LiveParticipantMatrixProps> = ({
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-800/60">
-              {filtered.map((p) => {
-                let statusBadge = (
-                  <span className="px-2 py-0.5 rounded bg-slate-800 text-slate-400 text-[10px]">
-                    {p.status}
-                  </span>
-                );
-                if (p.status === 'LIVE') {
-                  statusBadge = (
-                    <span className="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-[10px] font-bold">
-                      LIVE
-                    </span>
-                  );
-                } else if (p.status === 'COMPLETED') {
-                  statusBadge = (
-                    <span className="px-2 py-0.5 rounded bg-blue-500/20 text-blue-400 border border-blue-500/30 text-[10px] font-bold">
-                      COMPLETED
-                    </span>
-                  );
-                }
-
-                const violationCount = p.integrity_events_count || 0;
-
-                return (
-                  <tr
-                    key={p.user_id}
-                    onClick={() => handleRowClick(p.user_id)}
-                    className="hover:bg-cyan-500/10 cursor-pointer transition"
-                  >
-                    <td className="px-4 py-3 font-bold text-cyan-400">{p.player_code}</td>
-                    <td className="px-4 py-3 font-semibold text-emerald-300">
-                      {p.team_name ? p.team_name : <span className="text-slate-600 font-normal italic">Unregistered</span>}
-                    </td>
-                    <td className="px-4 py-3 text-center font-bold text-cyan-300">
-                      {p.question_display}
-                    </td>
-                    <td className="px-4 py-3 text-center">
-                      <span className="px-2 py-0.5 rounded bg-navy-950 border border-slate-700 text-slate-300 font-bold">
-                        {p.clue_display}
-                      </span>
-                    </td>
-                    <td className="px-4 py-3 text-center">
-                      <span className="text-amber-400 font-bold">{p.current_value} PTS</span>
-                    </td>
-                    <td className="px-4 py-3 text-right font-extrabold text-emerald-400 text-sm">
-                      {String(p.total_score).padStart(4, '0')} <span className="text-slate-600 text-[10px]">/ 2000</span>
-                    </td>
-                    <td className="px-4 py-3 text-center">
-                      {violationCount > 0 ? (
-                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 border border-amber-500/40 text-[10px] font-bold">
-                          ⚠ {violationCount}
-                        </span>
-                      ) : (
-                        <span className="text-emerald-400 font-bold text-xs">✓</span>
-                      )}
-                    </td>
-                    <td className="px-4 py-3 text-center">{statusBadge}</td>
-                    <td className="px-4 py-3 text-center">
-                      <button
-                        type="button"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleRowClick(p.user_id);
-                        }}
-                        className="p-1 rounded hover:bg-cyan-500/20 text-slate-400 hover:text-cyan-300 transition"
-                        title="View Details"
-                      >
-                        <Eye className="w-3.5 h-3.5" />
-                      </button>
-                    </td>
-                  </tr>
-                );
-              })}
+              {filtered.map((p) => (
+                <ParticipantRow key={p.user_id} participant={p} onSelect={handleRowClick} />
+              ))}
               {filtered.length === 0 && (
                 <tr>
                   <td colSpan={9} className="text-center py-8 text-slate-500 font-mono">

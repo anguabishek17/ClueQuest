@@ -56,12 +56,15 @@ export const CursorBlueFog: React.FC = () => {
     let height = 0;
     let dpr = 1;
 
+    // Detect hardware concurrency to adaptively tune rendering load
+    const isLowPower = typeof navigator !== 'undefined' && ((navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4) || (window.innerWidth < 768));
+
     const resize = () => {
-      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      dpr = Math.min(window.devicePixelRatio || 1, isLowPower ? 1.0 : 1.5);
       width = window.innerWidth;
       height = window.innerHeight;
-      canvas.width = width * dpr;
-      canvas.height = height * dpr;
+      canvas.width = Math.floor(width * dpr);
+      canvas.height = Math.floor(height * dpr);
       canvas.style.width = `${width}px`;
       canvas.style.height = `${height}px`;
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
@@ -89,15 +92,27 @@ export const CursorBlueFog: React.FC = () => {
     let scrollVelocity = 0;
 
     let hasReceivedMouse = false;
+    let mousePending = false;
 
     const onMouseMove = (e: MouseEvent) => {
-      targetMouseX = e.clientX;
-      targetMouseY = e.clientY;
-      hasReceivedMouse = true;
+      if (mousePending) return;
+      mousePending = true;
+      requestAnimationFrame(() => {
+        mousePending = false;
+        targetMouseX = e.clientX;
+        targetMouseY = e.clientY;
+        hasReceivedMouse = true;
+      });
     };
 
+    let scrollPending = false;
     const onScroll = () => {
-      targetScrollY = window.scrollY;
+      if (scrollPending) return;
+      scrollPending = true;
+      requestAnimationFrame(() => {
+        scrollPending = false;
+        targetScrollY = window.scrollY;
+      });
     };
 
     window.addEventListener('mousemove', onMouseMove, { passive: true });
@@ -221,6 +236,12 @@ export const CursorBlueFog: React.FC = () => {
 
       // 3. Clear canvas for fresh composite frame
       ctx.clearRect(0, 0, width, height);
+
+      // Pause rendering computations when tab is hidden
+      if (document.hidden) {
+        animationFrameId = requestAnimationFrame(render);
+        return;
+      }
 
       // In reduced motion mode, render static peaceful fog
       if (prefersReducedMotion) {
