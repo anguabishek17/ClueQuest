@@ -95,10 +95,10 @@ export const Header: React.FC<HeaderProps> = ({
   return (
     <header className="sticky top-0 z-40 bg-navy-950/80 border-b border-slate-800/60 backdrop-blur-xl transition-all">
       {/* Top Institutional Header */}
-      <div className="bg-navy-950/95 border-b border-slate-800/40 px-4 sm:px-6 lg:px-8 py-1.5 text-[11px] font-sans text-slate-400">
-        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-2">
+      <div className="bg-navy-950/95 border-b border-slate-800/40 px-4 sm:px-6 lg:px-8 py-2 text-[11px] font-sans text-slate-400">
+        <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
           {/* Left Zone: VSB College Logo & Name */}
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2.5">
             <img
               src="/assets/vsb-logo.png"
               alt="VSB Engineering College Logo"
@@ -109,15 +109,8 @@ export const Header: React.FC<HeaderProps> = ({
             </span>
           </div>
 
-          {/* Center Zone: Department Info & Accreditation */}
-          <div className="hidden lg:flex items-center gap-2 text-[11px] font-sans text-slate-400">
-            <span className="tracking-wide">DEPARTMENT OF ELECTRONICS & COMMUNICATION ENGINEERING</span>
-            <span className="text-slate-600">•</span>
-            <span className="text-emerald-400 font-medium tracking-wide">NBA & NAAC ACCREDITED</span>
-          </div>
-
           {/* Right Zone: Electronics Club Logo & Name */}
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2.5">
             <img
               src="/assets/elc-logo.png"
               alt="Electronics Club Logo"
