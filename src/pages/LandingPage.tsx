@@ -1,5 +1,5 @@
 import React from 'react';
-import { Cpu, ArrowRight, Shield, Zap, Sparkles, Activity, Layers, Users, ChevronDown, Award, Radio } from 'lucide-react';
+import { Cpu, ArrowRight, Zap, Sparkles, Activity, Layers, Users, ChevronDown, Award, Radio } from 'lucide-react';
 import { ECEChipMotif } from '../components/layout/ECEChipMotif.js';
 import { useAuth } from '../context/AuthContext.js';
 
@@ -98,34 +98,25 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
         </p>
 
         {/* 4. PREMIUM CTA BUTTONS */}
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-3.5 w-full max-w-md sm:max-w-none mb-12">
+        <div className="flex items-center justify-center w-full max-w-md sm:max-w-none mb-12">
           {user ? (
             <button
               onClick={() => onNavigate(user.role === 'ADMIN' ? 'admin' : 'game')}
               className="w-full sm:w-auto px-8 py-3.5 rounded-lg bg-cyan-400 hover:bg-cyan-300 text-navy-950 font-sans font-bold text-sm tracking-wide shadow-cyan-glow hover:shadow-cyan-glow-lg flex items-center justify-center gap-2.5 transition-all duration-200 transform hover:-translate-y-0.5 active:translate-y-0"
             >
               <Zap className="w-4 h-4 fill-current" />
-              <span>{user.role === 'ADMIN' ? 'ENTER ADMIN CONTROL CENTER' : 'RESUME CLUE QUEST ARENA'}</span>
+              <span>{user.role === 'ADMIN' ? 'ACCESS CONTROL CENTER' : 'RESUME CLUE QUEST ARENA'}</span>
               <ArrowRight className="w-4 h-4" />
             </button>
           ) : (
-            <>
-              <button
-                onClick={() => onNavigate('login')}
-                className="w-full sm:w-auto px-8 py-3.5 rounded-lg bg-cyan-400 hover:bg-cyan-300 text-navy-950 font-sans font-bold text-sm tracking-wide shadow-cyan-glow hover:shadow-cyan-glow-lg flex items-center justify-center gap-2.5 transition-all duration-200 transform hover:-translate-y-0.5 active:translate-y-0"
-              >
-                <Zap className="w-4 h-4 fill-current" />
-                <span>ENTER QUEST</span>
-                <ArrowRight className="w-4 h-4" />
-              </button>
-              <button
-                onClick={() => onNavigate('admin_login')}
-                className="w-full sm:w-auto px-6 py-3.5 rounded-lg bg-white/[0.03] hover:bg-cyan-500/[0.08] text-slate-200 hover:text-white border border-slate-700/60 hover:border-cyan-500/50 font-sans font-medium text-sm tracking-wide flex items-center justify-center gap-2 transition-all duration-200"
-              >
-                <Shield className="w-4 h-4 text-cyan-400" />
-                <span>COORDINATOR PORTAL</span>
-              </button>
-            </>
+            <button
+              onClick={() => onNavigate('login')}
+              className="w-full sm:w-auto px-8 py-3.5 rounded-lg bg-cyan-400 hover:bg-cyan-300 text-navy-950 font-sans font-bold text-sm tracking-wide shadow-cyan-glow hover:shadow-cyan-glow-lg flex items-center justify-center gap-2.5 transition-all duration-200 transform hover:-translate-y-0.5 active:translate-y-0"
+            >
+              <Zap className="w-4 h-4 fill-current" />
+              <span>ENTER QUEST</span>
+              <ArrowRight className="w-4 h-4" />
+            </button>
           )}
         </div>
 
