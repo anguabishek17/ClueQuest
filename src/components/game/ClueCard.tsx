@@ -67,7 +67,7 @@ export const ClueCard: React.FC<ClueCardProps> = ({
           </div>
         ) : (
           <div className="py-2 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-            <p className="text-xs text-slate-500 font-mono">
+            <p className="text-xs text-slate-400 font-sans leading-relaxed">
               {canUnlock
                 ? `Need more technical hints? Unlocking reduces this question's reward to ${points} pts.`
                 : `Unlock Clue 0${level - 1} first to access this hint.`}

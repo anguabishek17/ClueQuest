@@ -111,7 +111,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({
               CLUE <span className="text-cyan-400">QUEST</span>
             </span>
           </div>
-          <p className="text-xs font-mono text-slate-400 tracking-wider uppercase">
+          <p className="text-xs font-sans font-semibold text-slate-400 tracking-wider uppercase">
             VSB ENGINEERING COLLEGE • ECE DEPARTMENT
           </p>
         </div>

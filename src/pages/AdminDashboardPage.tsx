@@ -160,18 +160,18 @@ export const AdminDashboardPage: React.FC = () => {
           <div>
             <div className="flex items-center gap-2">
               <ShieldCheck className="w-6 h-6 text-cyan-400" />
-              <h1 className="text-2xl font-display font-extrabold text-white tracking-wide">
+              <h1 className="text-2xl font-display font-bold text-white tracking-wide">
                 CLUE QUEST CONTROL CENTER
               </h1>
             </div>
-            <p className="text-xs font-mono text-slate-400">
+            <p className="text-xs font-sans font-semibold text-slate-400 uppercase tracking-wider mt-0.5">
               VSB ENGINEERING COLLEGE • DEPARTMENT OF ELECTRONICS & COMMUNICATION ENGINEERING
             </p>
           </div>
 
           <button
             onClick={refreshAll}
-            className="px-3.5 py-1.5 rounded bg-navy-900 border border-slate-700 hover:border-cyan-400 text-slate-300 text-xs font-mono flex items-center gap-2 transition"
+            className="px-3.5 py-1.5 rounded bg-navy-900 border border-slate-700 hover:border-cyan-400 text-slate-300 text-xs font-sans font-semibold flex items-center gap-2 transition"
           >
             <RefreshCw className="w-3.5 h-3.5" />
             REFRESH DATA

@@ -33,9 +33,9 @@ export default {
         },
       },
       fontFamily: {
-        sans: ['Inter', 'system-ui', 'sans-serif'],
+        sans: ['Inter', 'Arial', 'Helvetica', 'system-ui', '-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'sans-serif'],
         mono: ['"JetBrains Mono"', 'monospace'],
-        display: ['"Space Grotesk"', 'sans-serif'],
+        display: ['"Times New Roman"', 'Times', 'Georgia', 'serif'],
       },
       boxShadow: {
         'cyan-glow': '0 0 20px -5px rgba(0, 242, 254, 0.3)',

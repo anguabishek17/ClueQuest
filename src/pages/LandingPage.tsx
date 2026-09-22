@@ -78,13 +78,13 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
         </div>
 
         {/* 1. TOP BADGE PILL */}
-        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-navy-900/80 border border-cyan-500/30 text-xs font-mono text-cyan-300 mb-8 shadow-cyan-glow backdrop-blur-md">
+        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-navy-900/80 border border-cyan-500/30 text-xs font-sans text-cyan-300 mb-8 shadow-cyan-glow backdrop-blur-md">
           <Zap className="w-3.5 h-3.5 text-cyan-400 fill-cyan-400/20" />
-          <span className="tracking-wider uppercase text-[11px] sm:text-xs">ELECTRONICS CLUB • VSB ECE</span>
+          <span className="tracking-widest uppercase font-semibold text-[11px] sm:text-xs">ELECTRONICS CLUB • VSB ECE</span>
         </div>
 
         {/* 2. HUGE CINEMATIC HERO HEADING */}
-        <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-[5.25rem] font-display font-bold text-white tracking-[-0.04em] leading-[1.08] max-w-5xl mx-auto mb-6">
+        <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-[5.25rem] font-display font-bold text-white tracking-[-0.03em] leading-[1.08] max-w-5xl mx-auto mb-6">
           Every clue costs.<br />
           Every answer counts.<br />
           <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-sky-300 to-blue-500 text-glow-cyan">
@@ -121,26 +121,26 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
         </div>
 
         {/* 5. MINIMAL GAME METADATA & MECHANIC ROW */}
-        <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-6 text-xs font-mono text-slate-400 pt-2 border-t border-slate-800/50 max-w-xl mx-auto">
-          <span className="flex items-center gap-1.5">
-            <strong className="text-white font-bold">20</strong> QUESTIONS
+        <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-6 text-xs text-slate-400 pt-2 border-t border-slate-800/50 max-w-xl mx-auto font-sans">
+          <span className="flex items-center gap-1.5 font-sans">
+            <strong className="text-white font-bold font-mono text-sm">20</strong> <span className="tracking-wider uppercase font-semibold text-[11px]">QUESTIONS</span>
           </span>
           <span className="text-slate-600">•</span>
-          <span className="flex items-center gap-1.5">
-            <strong className="text-cyan-300 font-bold">4</strong> CLUES / QUESTION
+          <span className="flex items-center gap-1.5 font-sans">
+            <strong className="text-cyan-300 font-bold font-mono text-sm">4</strong> <span className="tracking-wider uppercase font-semibold text-[11px]">CLUES / QUESTION</span>
           </span>
           <span className="text-slate-600">•</span>
-          <span className="flex items-center gap-1.5">
-            <strong className="text-emerald-400 font-bold">2000</strong> MAX PTS
+          <span className="flex items-center gap-1.5 font-sans">
+            <strong className="text-emerald-400 font-bold font-mono text-sm">2000</strong> <span className="tracking-wider uppercase font-semibold text-[11px]">MAX PTS</span>
           </span>
           <span className="text-slate-600 hidden sm:inline">•</span>
-          <span className="text-[11px] text-slate-500 w-full sm:w-auto mt-1 sm:mt-0">
-            CLUE VALUE SYSTEM: <strong className="text-cyan-400">100 → 75 → 50 → 25 PTS</strong>
+          <span className="text-[11px] text-slate-400 w-full sm:w-auto mt-1 sm:mt-0 font-sans">
+            CLUE VALUE SYSTEM: <strong className="text-cyan-400 font-mono">100 → 75 → 50 → 25 PTS</strong>
           </span>
         </div>
 
         {/* Subtle Scroll Down Indicator */}
-        <div className="mt-14 text-slate-600 flex flex-col items-center gap-1 text-[11px] font-mono tracking-widest uppercase">
+        <div className="mt-14 text-slate-600 flex flex-col items-center gap-1 text-[11px] font-sans tracking-widest uppercase font-medium">
           <span>EXPLORE</span>
           <ChevronDown className="w-4 h-4 animate-bounce text-slate-500" />
         </div>
@@ -149,13 +149,13 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
       {/* HOW IT WORKS / SCORING PROGRESSION */}
       <section id="how-it-works" className="relative z-10 py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-t border-slate-800/60">
         <div className="text-center mb-12">
-          <span className="text-xs font-mono text-cyan-400 uppercase tracking-widest block mb-2">
+          <span className="text-xs font-sans font-bold text-cyan-400 uppercase tracking-widest block mb-2">
             CORE GAMEPLAY MECHANICS
           </span>
-          <h2 className="text-3xl sm:text-4xl font-display font-extrabold text-white tracking-tight">
+          <h2 className="text-3xl sm:text-4xl font-display font-bold text-white tracking-tight">
             The Clue Value Sacrifice Model
           </h2>
-          <p className="text-slate-400 text-sm max-w-xl mx-auto mt-2 font-sans">
+          <p className="text-slate-400 text-sm max-w-xl mx-auto mt-2 font-sans leading-relaxed">
             Every question starts at 100 points with Clue 1 unlocked. Need more technical insights? Reveal clues sequentially at the cost of the question's reward.
           </p>
         </div>
@@ -199,7 +199,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
                   {item.points}
                 </span>
               </div>
-              <h3 className="font-display font-bold text-white text-base mb-2">{item.title}</h3>
+              <h3 className="font-display font-bold text-white text-lg mb-2">{item.title}</h3>
               <p className="text-xs text-slate-400 leading-relaxed font-sans">{item.desc}</p>
             </div>
           ))}
@@ -209,7 +209,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
         <div className="tech-card rounded-xl p-6 border border-emerald-500/40 bg-gradient-to-r from-emerald-950/20 to-navy-900/60 max-w-4xl mx-auto flex items-start gap-4">
           <Sparkles className="w-6 h-6 text-emerald-400 shrink-0 mt-1" />
           <div>
-            <h4 className="text-sm font-mono font-bold text-emerald-300 uppercase tracking-wide mb-1">
+            <h4 className="text-sm font-sans font-bold text-emerald-300 uppercase tracking-wide mb-1">
               Zero Score Deduction Guarantee
             </h4>
             <p className="text-xs text-slate-300 leading-relaxed font-sans">
@@ -224,27 +224,27 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
       <section id="electronics-club" className="relative z-10 py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-t border-slate-800/80">
         <div id="department-overview" className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <div>
-            <span className="text-xs font-mono text-cyan-400 uppercase tracking-widest block mb-2">
+            <span className="text-xs font-sans font-bold text-cyan-400 uppercase tracking-widest block mb-2">
               VSB ECE EXCELLENCE
             </span>
-            <h2 className="text-3xl font-display font-extrabold text-white mb-4">
+            <h2 className="text-3xl font-display font-bold text-white mb-4">
               Shaping Tomorrow with ECE Innovations
             </h2>
-            <p className="text-sm text-slate-400 leading-relaxed mb-4">
+            <p className="text-sm text-slate-400 leading-relaxed mb-4 font-sans">
               Established in 2002, the Department of Electronics and Communication Engineering at VSB Engineering College provides state-of-the-art laboratory infrastructure in VLSI Design, Embedded Systems, Communication Networks, and Digital Signal Processing.
             </p>
-            <p className="text-sm text-slate-400 leading-relaxed mb-6">
+            <p className="text-sm text-slate-400 leading-relaxed mb-6 font-sans">
               The Electronics Club organizes competitive hackathons, circuit debugging challenges, Wokwi simulations, and annual technical symposiums to empower engineering students to excel in core industry domains.
             </p>
 
-            <div className="grid grid-cols-2 gap-4 font-mono text-xs">
-              <div className="p-3 rounded bg-navy-900 border border-slate-800">
-                <span className="text-cyan-400 block font-bold">240 INTAKE</span>
-                <span className="text-slate-400 text-[11px]">B.E. ECE Program</span>
+            <div className="grid grid-cols-2 gap-4 text-xs font-sans">
+              <div className="p-3.5 rounded bg-navy-900 border border-slate-800">
+                <span className="text-cyan-400 block font-bold font-mono text-sm">240 INTAKE</span>
+                <span className="text-slate-400 text-xs">B.E. ECE Program</span>
               </div>
-              <div className="p-3 rounded bg-navy-900 border border-slate-800">
-                <span className="text-emerald-400 block font-bold">10+ LABS</span>
-                <span className="text-slate-400 text-[11px]">Specialized Centers</span>
+              <div className="p-3.5 rounded bg-navy-900 border border-slate-800">
+                <span className="text-emerald-400 block font-bold font-mono text-sm">10+ LABS</span>
+                <span className="text-slate-400 text-xs">Specialized Centers</span>
               </div>
             </div>
           </div>
@@ -252,10 +252,10 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
           {/* Technical Blueprint Card */}
           <div className="tech-card p-6 rounded-xl border border-cyan-500/30">
             <div className="flex items-center justify-between border-b border-slate-800 pb-3 mb-4">
-              <span className="font-mono text-xs text-cyan-400 font-bold">TOURNAMENT TOPICS (20 DOMAINS)</span>
+              <span className="font-sans text-xs text-cyan-400 font-bold uppercase tracking-wider">TOURNAMENT TOPICS (20 DOMAINS)</span>
               <span className="chip-badge">OFFICIAL CURRICULUM</span>
             </div>
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 text-xs font-mono text-slate-300">
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 text-xs text-slate-300 font-sans">
               {[
                 'Resistors', 'Capacitors', 'Inductors', 'Diodes',
                 'Transistors (BJT)', 'MOSFET', 'Op-Amps (741)', 'Logic Gates',
@@ -264,7 +264,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
                 'SPI Interface', 'Antennas', 'Modulation', 'Oscillators'
               ].map((topic, idx) => (
                 <div key={idx} className="p-2 rounded bg-navy-950/70 border border-slate-800/80 flex items-center gap-1.5">
-                  <span className="text-cyan-400 text-[10px]">{String(idx + 1).padStart(2, '0')}.</span>
+                  <span className="text-cyan-400 font-mono text-[11px]">{String(idx + 1).padStart(2, '0')}.</span>
                   <span className="truncate">{topic}</span>
                 </div>
               ))}

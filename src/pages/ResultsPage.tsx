@@ -65,20 +65,20 @@ export const ResultsPage: React.FC<ResultsPageProps> = ({ onBackToHome }) => {
             <Trophy className="w-12 h-12 text-yellow-400 animate-bounce" />
           </div>
 
-          <span className="block text-xs font-mono text-cyan-400 tracking-widest uppercase mb-1">
+          <span className="block text-xs font-sans font-bold text-cyan-400 tracking-widest uppercase mb-1">
             TOURNAMENT RECORD VERIFIED
           </span>
 
-          <h1 className="text-3xl sm:text-5xl font-display font-extrabold text-white mb-2">
+          <h1 className="text-3xl sm:text-5xl font-display font-bold text-white mb-2">
             QUEST COMPLETE
           </h1>
 
-          <p className="text-sm font-mono text-slate-300 mb-2">
-            PARTICIPANT: <strong className="text-cyan-300">{player?.display_name || player?.player_code}</strong> ({player?.player_code})
+          <p className="text-sm font-sans text-slate-300 mb-2">
+            PARTICIPANT: <strong className="text-cyan-300 font-mono">{player?.display_name || player?.player_code}</strong> <span className="font-mono text-slate-400">({player?.player_code})</span>
           </p>
           {player?.team_name && (
-            <p className="text-xs font-mono text-emerald-300 mb-6 font-bold">
-              TEAM IDENTITY: <span className="text-white px-2 py-0.5 rounded bg-emerald-950/60 border border-emerald-500/40">{player.team_name}</span>
+            <p className="text-xs font-sans text-emerald-300 mb-6 font-semibold">
+              TEAM IDENTITY: <span className="text-white px-2.5 py-0.5 rounded bg-emerald-950/60 border border-emerald-500/40 font-mono font-bold">{player.team_name}</span>
             </p>
           )}
 

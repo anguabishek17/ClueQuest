@@ -26,20 +26,20 @@ export const LeaderboardSection: React.FC = () => {
     <div id="leaderboard-section" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8">
         <div>
-          <span className="text-xs font-mono text-cyan-400 uppercase tracking-widest block mb-1">
+          <span className="text-xs font-sans font-bold text-cyan-400 uppercase tracking-widest block mb-1">
             TOURNAMENT STANDINGS
           </span>
-          <h2 className="text-3xl font-display font-extrabold text-white">
+          <h2 className="text-3xl font-display font-bold text-white">
             Official Live Leaderboard
           </h2>
-          <p className="text-xs font-mono text-slate-400">
+          <p className="text-xs font-sans text-slate-400 mt-0.5">
             {data?.event?.name || 'CLUE QUEST 2026'} • RANKED BY AUTHORITATIVE SCORES
           </p>
         </div>
 
         <button
           onClick={fetchLeaderboard}
-          className="px-4 py-2 rounded bg-navy-900 border border-slate-700 hover:border-cyan-400 text-slate-300 text-xs font-mono flex items-center gap-2 transition"
+          className="px-4 py-2 rounded bg-navy-900 border border-slate-700 hover:border-cyan-400 text-slate-300 text-xs font-sans font-semibold flex items-center gap-2 transition"
         >
           <RefreshCw className="w-3.5 h-3.5" />
           REFRESH RANKS

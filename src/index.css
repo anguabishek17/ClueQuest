@@ -9,12 +9,13 @@
   --border-tech: rgba(34, 211, 238, 0.2);
   --cyan-primary: #00F2FE;
   --cyan-accent: #06B6D4;
-  --font-display: 'Space Grotesk', system-ui, -apple-system, sans-serif;
-  --font-body: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-display: "Times New Roman", Times, Georgia, serif;
+  --font-body: Inter, Arial, Helvetica, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
 }
 
-.font-display {
+.font-display,
+.heading-display {
   font-family: var(--font-display);
 }
 
@@ -22,7 +23,8 @@
   font-family: var(--font-body);
 }
 
-.font-mono {
+.font-mono,
+.font-technical {
   font-family: var(--font-mono);
 }
 

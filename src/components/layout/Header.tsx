@@ -104,13 +104,13 @@ export const Header: React.FC<HeaderProps> = ({
               alt="VSB Engineering College Logo"
               className="w-6 h-6 sm:w-7 sm:h-7 object-contain shrink-0"
             />
-            <span className="text-cyan-400 font-semibold tracking-wider uppercase text-[11px] sm:text-xs">
+            <span className="font-display text-cyan-400 font-bold tracking-wider uppercase text-xs sm:text-sm">
               VSB ENGINEERING COLLEGE
             </span>
           </div>
 
           {/* Center Zone: Department Info & Accreditation */}
-          <div className="hidden lg:flex items-center gap-2 text-[11px] text-slate-400">
+          <div className="hidden lg:flex items-center gap-2 text-[11px] font-sans text-slate-400">
             <span className="tracking-wide">DEPARTMENT OF ELECTRONICS & COMMUNICATION ENGINEERING</span>
             <span className="text-slate-600">•</span>
             <span className="text-emerald-400 font-medium tracking-wide">NBA & NAAC ACCREDITED</span>
@@ -123,7 +123,7 @@ export const Header: React.FC<HeaderProps> = ({
               alt="Electronics Club Logo"
               className="w-6 h-6 sm:w-7 sm:h-7 object-contain shrink-0"
             />
-            <span className="text-cyan-300 font-medium tracking-wider uppercase text-[11px] sm:text-xs">
+            <span className="font-sans text-cyan-300 font-semibold tracking-wider uppercase text-[11px] sm:text-xs">
               ELECTRONICS CLUB
             </span>
           </div>
@@ -147,7 +147,7 @@ export const Header: React.FC<HeaderProps> = ({
               </span>
               <span className="chip-badge hidden sm:inline-block text-[10px]">ECE CLUB</span>
             </div>
-            <p className="text-[10px] text-slate-400 font-mono tracking-wider">DECODE • THINK • ANSWER</p>
+            <p className="text-[10px] text-slate-400 font-sans tracking-widest font-medium uppercase">DECODE • THINK • ANSWER</p>
           </div>
         </div>
 
